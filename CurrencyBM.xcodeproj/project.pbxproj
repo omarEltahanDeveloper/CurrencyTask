@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		843120F72A2B73BD00066859 /* CurrencyBMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120F62A2B73BD00066859 /* CurrencyBMApp.swift */; };
-		843120F92A2B73BD00066859 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120F82A2B73BD00066859 /* ContentView.swift */; };
+		843120F92A2B73BD00066859 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120F82A2B73BD00066859 /* CurrenciesView.swift */; };
 		843120FB2A2B73C100066859 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843120FA2A2B73C100066859 /* Assets.xcassets */; };
 		843120FE2A2B73C100066859 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843120FD2A2B73C100066859 /* Preview Assets.xcassets */; };
 		843121002A2B73C100066859 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843120FF2A2B73C100066859 /* Persistence.swift */; };
@@ -16,6 +16,10 @@
 		8431210D2A2B73C200066859 /* CurrencyBMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431210C2A2B73C200066859 /* CurrencyBMTests.swift */; };
 		843121172A2B73C200066859 /* CurrencyBMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843121162A2B73C200066859 /* CurrencyBMUITests.swift */; };
 		843121192A2B73C200066859 /* CurrencyBMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843121182A2B73C200066859 /* CurrencyBMUITestsLaunchTests.swift */; };
+		843121292A2B7F0F00066859 /* ColorsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843121282A2B7F0F00066859 /* ColorsExtensions.swift */; };
+		8431212B2A2B871300066859 /* StringsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431212A2A2B871300066859 /* StringsExtension.swift */; };
+		8431212F2A2BA28900066859 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431212E2A2BA28900066859 /* NetworkManager.swift */; };
+		843121322A2BA2AD00066859 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843121312A2BA2AD00066859 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84261BCB2A2BA937000443E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		843120F32A2B73BD00066859 /* CurrencyBM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyBM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		843120F62A2B73BD00066859 /* CurrencyBMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBMApp.swift; sourceTree = "<group>"; };
-		843120F82A2B73BD00066859 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		843120F82A2B73BD00066859 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		843120FA2A2B73C100066859 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		843120FD2A2B73C100066859 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		843120FF2A2B73C100066859 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -48,6 +53,10 @@
 		843121122A2B73C200066859 /* CurrencyBMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurrencyBMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		843121162A2B73C200066859 /* CurrencyBMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBMUITests.swift; sourceTree = "<group>"; };
 		843121182A2B73C200066859 /* CurrencyBMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBMUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		843121282A2B7F0F00066859 /* ColorsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtensions.swift; sourceTree = "<group>"; };
+		8431212A2A2B871300066859 /* StringsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsExtension.swift; sourceTree = "<group>"; };
+		8431212E2A2BA28900066859 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		843121312A2BA2AD00066859 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,12 +107,15 @@
 		843120F52A2B73BD00066859 /* CurrencyBM */ = {
 			isa = PBXGroup;
 			children = (
-				843120F62A2B73BD00066859 /* CurrencyBMApp.swift */,
-				843120F82A2B73BD00066859 /* ContentView.swift */,
+				84261BCB2A2BA937000443E9 /* Info.plist */,
+				8431212D2A2BA17C00066859 /* NetworkLayer */,
+				8431212C2A2BA17000066859 /* Views */,
+				843121272A2B7EC400066859 /* Utils */,
 				843120FA2A2B73C100066859 /* Assets.xcassets */,
 				843120FF2A2B73C100066859 /* Persistence.swift */,
 				843121012A2B73C100066859 /* CurrencyBM.xcdatamodeld */,
 				843120FC2A2B73C100066859 /* Preview Content */,
+				843121312A2BA2AD00066859 /* Constants.swift */,
 			);
 			path = CurrencyBM;
 			sourceTree = "<group>";
@@ -131,6 +143,32 @@
 				843121182A2B73C200066859 /* CurrencyBMUITestsLaunchTests.swift */,
 			);
 			path = CurrencyBMUITests;
+			sourceTree = "<group>";
+		};
+		843121272A2B7EC400066859 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				843121282A2B7F0F00066859 /* ColorsExtensions.swift */,
+				8431212A2A2B871300066859 /* StringsExtension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8431212C2A2BA17000066859 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				843120F62A2B73BD00066859 /* CurrencyBMApp.swift */,
+				843120F82A2B73BD00066859 /* CurrenciesView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8431212D2A2BA17C00066859 /* NetworkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				8431212E2A2BA28900066859 /* NetworkManager.swift */,
+			);
+			path = NetworkLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,10 +301,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8431212B2A2B871300066859 /* StringsExtension.swift in Sources */,
 				843121002A2B73C100066859 /* Persistence.swift in Sources */,
+				843121292A2B7F0F00066859 /* ColorsExtensions.swift in Sources */,
+				8431212F2A2BA28900066859 /* NetworkManager.swift in Sources */,
 				843121032A2B73C100066859 /* CurrencyBM.xcdatamodeld in Sources */,
-				843120F92A2B73BD00066859 /* ContentView.swift in Sources */,
+				843120F92A2B73BD00066859 /* CurrenciesView.swift in Sources */,
 				843120F72A2B73BD00066859 /* CurrencyBMApp.swift in Sources */,
+				843121322A2BA2AD00066859 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,11 +469,15 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CurrencyBM/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CurrencyBM/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "BM Currency";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -439,9 +485,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.envision.CurrencyBM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -455,11 +504,15 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CurrencyBM/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CurrencyBM/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "BM Currency";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -467,9 +520,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.envision.CurrencyBM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
