@@ -1,0 +1,6 @@
+framework module Pods_CurrencyBMTests {
+  umbrella header "Pods-CurrencyBMTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

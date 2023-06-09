@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import RxSwift
 
 
 struct ItemCurrency: Identifiable {
@@ -14,29 +15,43 @@ struct ItemCurrency: Identifiable {
     let name: String
 }
 
-
-
 struct CurrenciesView: View {
+    @State var detailsAppear = false
+    @State var listOfCurrenciesComparing : [ItemCurrency] = []
+
+    
+    
+    let viewmodel : CurrenciesViewModel = CurrenciesViewModel()
+    let disposeBag = DisposeBag()
+    @State var listOfCurrencies : [ItemCurrency] = []
+    @State var showalert = false
+    @State var errorValue = ""
     @State var fromValue = "From:"
     @State var toValue = "To:"
-    @State var fromAmountValue = "01.00"
+    @State var fromAmountValue = "1"
     @State var toAmountValue = "xxxx"
     var body: some View {
         VStack {
             HStack(alignment: .top,spacing: 10) {
-                CurrencySelectionView(editablefield: true, titleValue: "From:", selectedValue: $fromValue, amountValue: $fromAmountValue)
+                CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: true, titleValue: "From:", selectedValue: $fromValue, amountValue: $fromAmountValue)
                     .onChange(of: self.fromAmountValue) { value in
-                        self.fromAmountValue = value.currencyInputFormattingFiledTF()
-                        self.toAmountValue = String((Double(value.currencyInputFormattingFiledTF().toAmountCorrectFormatToCalculate()) ?? 0.0) * 2.0).currencyInputFormattingFiledTF()
+                        updateCurrency()
                     }
                 Image("transfer").onTapGesture {
                     if fromValue != "From:" && toValue != "To:" {
                         let fromOldValue = fromValue
                         fromValue = toValue
                         toValue = fromOldValue
+                        viewmodel.getAmountValueComparingCurrencies(base: fromValue, target: toValue)
                     }
                 }
-                CurrencySelectionView(editablefield: false, titleValue: "To:", selectedValue: $toValue, amountValue: $toAmountValue)
+                CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: false, titleValue: "To:", selectedValue: $toValue, amountValue: $toAmountValue)
+                    .onChange(of: self.fromValue) { value in
+                        updateCurrency()
+                    }
+                    .onChange(of: self.toValue) { value in
+                        updateCurrency()
+                    }
             }.padding(.horizontal,20)
             
             Text("Details")
@@ -48,12 +63,51 @@ struct CurrenciesView: View {
                     RoundedRectangle(cornerRadius: 0)
                         .stroke(Color.gray, lineWidth: 0.5)
                 ).padding(.top)
+                
             
         }
+        .alert(isPresented: self.$showalert) {
+            Alert(title: Text(errorValue).foregroundColor(.red),dismissButton: .default(Text("ok")))
+        }
         .onAppear{
-            NetworkManager.shared.makeRequest(with: Constants.urlSession(urlvalue: "symbols")) { data, response, error in
-                // Handle the response and error
-            }
+            listenToObservables()
+            viewmodel.getAllAvailableCurrencies()
+        }
+    }
+    
+    func listenToObservables() {
+        viewmodel.dataObservable
+                    .subscribe(onNext: { data in
+                        self.listOfCurrencies = data.map { ItemCurrency(name: $0) }
+                    })
+                    .disposed(by: disposeBag)
+        
+        viewmodel.dataObservableAmount
+                    .subscribe(onNext: { amountvalue in
+                        self.toAmountValue =  String(amountvalue * (Double(fromAmountValue) ?? 1.0))
+                    })
+                    .disposed(by: disposeBag)
+        
+        viewmodel.dataObservableListOfAmount
+                    .subscribe(onNext: { listofamountvalues in
+                        self.listOfCurrenciesComparing = listofamountvalues.map { ItemCurrency(name: $0) }
+                    })
+                    .disposed(by: disposeBag)
+        
+        viewmodel.dataObservableError
+                   .subscribe(onNext: { error in
+                       errorValue = error == "" ? "General error" : error
+                       self.showalert = true
+                   })
+                   .disposed(by: disposeBag)
+    }
+    func updateCurrency() {
+        if fromAmountValue.isEmpty {
+            toAmountValue = "xxxx"
+            return
+        }
+        if fromValue != "From:" && toValue != "To:" {
+            viewmodel.getAmountValueComparingCurrencies(base: fromValue, target: toValue)
         }
     }
 }
@@ -68,7 +122,7 @@ struct ContentView_Previews: PreviewProvider {
 
 
 struct CurrencySelectionView: View {
-    let listOfCurrencies = ["EUR","USD","EGP","SAR"].map { ItemCurrency(name: $0) }
+    let listOfCurrencies : [ItemCurrency]
     var editablefield : Bool
     var titleValue : String
     @Binding var selectedValue : String
