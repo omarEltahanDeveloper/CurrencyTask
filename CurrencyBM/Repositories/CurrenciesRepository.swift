@@ -58,7 +58,7 @@ final class CurrenciesRepository {
                 if model.success {
                     var arrVals = Array<String>()
                     for (key,value) in (model.rates ?? [:]) {
-                        arrVals.append("\(value)\(key)")
+                        arrVals.append(String(format: "%.2f", value).currencyInputFormattingFiled() +  " \(key)")
                     }
                     onComplete(.success(arrVals))
                 }

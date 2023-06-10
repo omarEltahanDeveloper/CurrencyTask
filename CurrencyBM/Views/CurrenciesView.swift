@@ -15,12 +15,9 @@ struct ItemCurrency: Identifiable {
     let name: String
 }
 
-struct CurrenciesView: View {
-    @State var detailsAppear = false
-    @State var listOfCurrenciesComparing : [ItemCurrency] = []
 
-    
-    
+struct CurrenciesView: View {
+
     let viewmodel : CurrenciesViewModel = CurrenciesViewModel()
     let disposeBag = DisposeBag()
     @State var listOfCurrencies : [ItemCurrency] = []
@@ -31,47 +28,53 @@ struct CurrenciesView: View {
     @State var fromAmountValue = "1"
     @State var toAmountValue = "xxxx"
     var body: some View {
-        VStack {
-            HStack(alignment: .top,spacing: 10) {
-                CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: true, titleValue: "From:", selectedValue: $fromValue, amountValue: $fromAmountValue)
-                    .onChange(of: self.fromAmountValue) { value in
-                        updateCurrency()
+        NavigationView {
+            VStack {
+                HStack(alignment: .top,spacing: 10) {
+                    CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: true, titleValue: "From:", selectedValue: $fromValue, amountValue: $fromAmountValue)
+                        .onChange(of: self.fromAmountValue) { value in
+                            updateCurrency()
+                        }
+                    Image("transfer").onTapGesture {
+                        if fromValue != "From:" && toValue != "To:" {
+                            let fromOldValue = fromValue
+                            fromValue = toValue
+                            toValue = fromOldValue
+                            viewmodel.getAmountValueComparingCurrencies(base: fromValue, target: toValue)
+                        }
                     }
-                Image("transfer").onTapGesture {
-                    if fromValue != "From:" && toValue != "To:" {
-                        let fromOldValue = fromValue
-                        fromValue = toValue
-                        toValue = fromOldValue
-                        viewmodel.getAmountValueComparingCurrencies(base: fromValue, target: toValue)
-                    }
-                }
-                CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: false, titleValue: "To:", selectedValue: $toValue, amountValue: $toAmountValue)
-                    .onChange(of: self.fromValue) { value in
-                        updateCurrency()
-                    }
-                    .onChange(of: self.toValue) { value in
-                        updateCurrency()
-                    }
-            }.padding(.horizontal,20)
-            
-            Text("Details")
-                .multilineTextAlignment(.leading)
-                .font(.system(size: 18,weight: .semibold))
-                .foregroundColor(.black)
-                .padding(.vertical,7).padding(.horizontal,15)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 0)
-                        .stroke(Color.gray, lineWidth: 0.5)
-                ).padding(.top)
+                    CurrencySelectionView(listOfCurrencies: listOfCurrencies, editablefield: false, titleValue: "To:", selectedValue: $toValue, amountValue: $toAmountValue)
+                        .onChange(of: self.fromValue) { value in
+                            updateCurrency()
+                        }
+                        .onChange(of: self.toValue) { value in
+                            updateCurrency()
+                        }
+                }.padding(.horizontal,20)
                 
-            
-        }
-        .alert(isPresented: self.$showalert) {
-            Alert(title: Text(errorValue).foregroundColor(.red),dismissButton: .default(Text("ok")))
-        }
-        .onAppear{
-            listenToObservables()
-            viewmodel.getAllAvailableCurrencies()
+                
+                NavigationLink(destination: DetailsView(fromValue: fromValue)) {
+                    Text("Details")
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 18,weight: .semibold))
+                        .foregroundColor(.black)
+                        .padding(.vertical,7).padding(.horizontal,15)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 0)
+                                .stroke(Color.gray, lineWidth: 0.5)
+                        ).padding(.top)
+                }
+                
+                
+                
+            }
+            .alert(isPresented: self.$showalert) {
+                Alert(title: Text(errorValue).foregroundColor(.red),dismissButton: .default(Text("ok")))
+            }
+            .onAppear{
+                listenToObservables()
+                viewmodel.getAllAvailableCurrencies()
+            }
         }
     }
     
@@ -84,15 +87,12 @@ struct CurrenciesView: View {
         
         viewmodel.dataObservableAmount
                     .subscribe(onNext: { amountvalue in
-                        self.toAmountValue =  String(amountvalue * (Double(fromAmountValue) ?? 1.0))
+                        self.toAmountValue =  String(amountvalue * (Double(fromAmountValue) ?? 1.0)).currencyInputFormattingFiled()
+                        let db = DBManager()
+                        db.checkExistance(from: fromValue, to: toValue)
                     })
                     .disposed(by: disposeBag)
-        
-        viewmodel.dataObservableListOfAmount
-                    .subscribe(onNext: { listofamountvalues in
-                        self.listOfCurrenciesComparing = listofamountvalues.map { ItemCurrency(name: $0) }
-                    })
-                    .disposed(by: disposeBag)
+      
         
         viewmodel.dataObservableError
                    .subscribe(onNext: { error in
@@ -119,58 +119,3 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 
-
-
-struct CurrencySelectionView: View {
-    let listOfCurrencies : [ItemCurrency]
-    var editablefield : Bool
-    var titleValue : String
-    @Binding var selectedValue : String
-    @Binding var amountValue : String
-    var body: some View {
-        VStack{
-            Menu {
-                ForEach(listOfCurrencies) { item in
-                    Button {
-                        self.selectedValue = item.name
-                    } label: {
-                        Text(item.name)
-                    }
-                }
-            } label: {
-                Text(selectedValue)
-                    .font(.system(size: 18,weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(.vertical,7).padding(.horizontal,15)
-                    .frame(maxWidth: .infinity)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 0)
-                            .stroke(Color.gray, lineWidth: 0.5)
-                    )
-                    .background(Color.primaryColor)
-            }
-            if editablefield {
-                TextField("x.xx", text: self.$amountValue)
-                    .font(.system(size: 16, weight: .light))
-                    .foregroundColor(.black)
-                    .keyboardType(.asciiCapableNumberPad)
-                    .padding(.vertical,7).padding(.horizontal,15)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 0)
-                            .stroke(Color.primaryColor, lineWidth: 0.5)
-                    )
-            }
-            else {
-                Text(self.amountValue)
-                    .font(.system(size: 16, weight: .light))
-                    .foregroundColor(.black)
-                    .padding(.vertical,7).padding(.horizontal,15)
-                    .frame(maxWidth: .infinity)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 0)
-                            .stroke(Color.primaryColor, lineWidth: 0.5)
-                    )
-            }
-        }
-    }
-}

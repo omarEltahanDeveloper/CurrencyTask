@@ -14,6 +14,7 @@ struct CurrencyBMApp: App {
     var body: some Scene {
         WindowGroup {
             CurrenciesView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
